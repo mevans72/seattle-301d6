@@ -46,11 +46,11 @@ Article.loadAll = function(rawData) {
 Article.fetchAll = function() {
   var storedEtag;
   $.ajax({
-    type: "HEAD",
-    url: "data/hackerIpsum.json",
+    type: 'HEAD',
+    url: 'data/hackerIpsum.json',
     success: function(data, message, xhr) {
-      storedEtag = xhr.getResponseHeader("etag");
-      localStorage.setItem("etag", JSON.stringify(storedEtag));
+      storedEtag = xhr.getResponseHeader('etag');
+      localStorage.setItem('etag', JSON.stringify(storedEtag));
       if (storedEtag === JSON.parse(localStorage.etag) && localStorage.rawData) {
         // When rawData is already in localStorage,
         // we can load it by calling the .loadAll function,
@@ -58,7 +58,7 @@ Article.fetchAll = function() {
         Article.loadAll(localStorage.rawData); //DONE: What do we pass in here to the .loadAll function?
         articleView.initIndexPage();//(); //DONE: Change this fake method call to the correct one that will render the index page.
       } else {
-        // TODO: When we don't already have the rawData, we need to:
+        // DONE: When we don't already have the rawData, we need to:
         // 1. Retrieve the JSON file from the server with AJAX (which jQuery method is best for this?),
           //Use the getJSON call here.
         $.getJSON('/data/hackerIpsum.json', function(rawData) {
@@ -69,7 +69,7 @@ Article.fetchAll = function() {
           localStorage.setItem('rawData', JSON.stringify(rawData));
         // 4. And then render the index page (perhaps with an articleView method?).
           articleView.initIndexPage();
-          });
+        });
       }
     }
   });
