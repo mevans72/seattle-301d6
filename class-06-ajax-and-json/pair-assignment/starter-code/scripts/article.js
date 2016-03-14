@@ -50,8 +50,8 @@ Article.fetchAll = function() {
     url: 'data/hackerIpsum.json',
     success: function(data, message, xhr) {
       storedEtag = xhr.getResponseHeader('etag');
-      localStorage.setItem('etag', JSON.stringify(storedEtag));
-      if (storedEtag === JSON.parse(localStorage.etag) && localStorage.rawData) {
+      localStorage.setItem('etag', storedEtag);
+      if (storedEtag === localStorage.etag && localStorage.rawData) {
         // When rawData is already in localStorage,
         // we can load it by calling the .loadAll function,
         // and then render the index page (using the proper method on the articleView object).
