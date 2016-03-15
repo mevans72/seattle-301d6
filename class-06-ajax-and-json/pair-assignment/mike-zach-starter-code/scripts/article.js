@@ -52,7 +52,6 @@ Article.fetchAll = function() {
     url: 'data/hackerIpsum.json',
     success: function(data, message, xhr) {
       storedEtag = xhr.getResponseHeader('etag');
-      localStorage.setItem('etag', storedEtag);
       if (storedEtag === localStorage.etag && localStorage.rawData) {
         // console.log('We started the IF statement');
         // When rawData is already in localStorage,
@@ -68,6 +67,7 @@ Article.fetchAll = function() {
           //Use the getJSON call here.
         $.getJSON('/data/hackerIpsum.json', function (data) {
           Article.loadAll(data);
+          localStorage.setItem('etag', storedEtag);
           localStorage.setItem('rawData', JSON.stringify(data));
           articleView.initIndexPage();
         });
