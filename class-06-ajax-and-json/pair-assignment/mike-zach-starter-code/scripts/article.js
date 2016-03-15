@@ -33,6 +33,7 @@ Article.prototype.toHtml = function() {
 // encapsulated in a simply-named function for clarity.
 Article.loadAll = function(rawData) {
   // console.log('The rawData vairable is: ' + rawData);
+  // console.log('This is rawData: '+ rawData);
   rawData.sort(function(a,b) {
     return (new Date(b.publishedOn)) - (new Date(a.publishedOn));
   });
@@ -53,26 +54,31 @@ Article.fetchAll = function() {
       storedEtag = xhr.getResponseHeader('etag');
       localStorage.setItem('etag', storedEtag);
       if (storedEtag === localStorage.etag && localStorage.rawData) {
+        // console.log('We started the IF statement');
         // When rawData is already in localStorage,
         // we can load it by calling the .loadAll function,
         // and then render the index page (using the proper method on the articleView object).
-        Article.loadAll(localStorage.rawData); //DONE: What do we pass in here to the .loadAll function?
+        Article.loadAll(JSON.parse(localStorage.rawData)); //DONE: What do we pass in here to the .loadAll function?
         articleView.initIndexPage();//(); //DONE: Change this fake method call to the correct one that will render the index page.
-        console.log('We completed the IF statement');
+        // console.log('We completed the IF statement');
       } else {
+        // console.log('We started the ELSE statement');
         // DONE: When we don't already have the rawData, we need to:
         // 1. Retrieve the JSON file from the server with AJAX (which jQuery method is best for this?),
           //Use the getJSON call here.
-        $.getJSON('/data/hackerIpsum.json', function(rawData) {
+        $.getJSON('/data/hackerIpsum.json', function (data) {
+          Article.loadAll(data);
+          localStorage.setItem('rawData', JSON.stringify(data));
+          articleView.initIndexPage();
+        });
+        // console.log('rawData is: ' + rawData);
         // 2. Store the resulting JSON data with the .loadAll method,
           // console.log(rawData);
-          Article.loadAll(rawData);
+        // Article.loadAll(rawData);
         // 3. Cache it in localStorage so we can skip the server call next time, (index page...)
-          localStorage.setItem('rawData', JSON.stringify(rawData));
         // 4. And then render the index page (perhaps with an articleView method?).
-          articleView.initIndexPage();
-          console.log('We completed the ELSE statement');
-        });
+        // console.log('We completed the ELSE statement');
+
       }
     }
   });
