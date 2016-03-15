@@ -78,9 +78,7 @@ Article.fetchAll = function() {
         // 3. Cache it in localStorage so we can skip the server call next time, (index page...)
         // 4. And then render the index page (perhaps with an articleView method?).
         // console.log('We completed the ELSE statement');
-
       }
     }
   });
-
 };
